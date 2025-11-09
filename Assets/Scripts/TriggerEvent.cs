@@ -2,21 +2,13 @@ using UnityEngine;
 
 public class TriggerEvent : MonoBehaviour
 {
-
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        Debug.Log($"Объект вошел в триггер: {other.name}");
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnTriggerExit(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log($"Объект вышел из триггера: {other.name}");
     }
 }
