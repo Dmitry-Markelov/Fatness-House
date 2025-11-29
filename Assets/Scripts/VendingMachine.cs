@@ -10,7 +10,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private RayCast rayCast;
     
     [Header("Settings")]
-    [SerializeField] private string interactionText = "Press E to use Vending Machine";
+    [SerializeField] private string interactionText = "Нажмите [Е] для использования";
     
     private bool isUIOpen = false;
     

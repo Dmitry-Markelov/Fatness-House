@@ -6,6 +6,7 @@ public class InventoryItem
     public string itemName;
     public Sprite itemIcon;
     public bool consumable = true;
+    public int itemValue = 1;
     
     public InventoryItem(string name, Sprite icon, bool isConsumable = true)
     {
@@ -16,7 +17,7 @@ public class InventoryItem
 
     public virtual void Use()
     {
-        Debug.Log($"Using item: {itemName}");
+        // Debug.Log($"Using item: {itemName}");
         // Реализация использования в дочерних классах
     }
 }

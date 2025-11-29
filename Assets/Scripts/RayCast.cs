@@ -62,14 +62,14 @@ public class RayCast : MonoBehaviour
         {
             interactionHintUI.SetActive(show);
             
-            // if (show && currentInteractable != null)
-            // {
-            //     Text hintText = interactionHintUI.GetComponentInChildren<Text>();
-            //     if (hintText != null)
-            //     {
-            //         hintText.text = currentInteractable.GetInteractionText();
-            //     }
-            // }
+            if (show && currentInteractable != null)
+            {
+                TMPro.TextMeshProUGUI hintText = interactionHintUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                if (hintText != null)
+                {
+                    hintText.text = currentInteractable.GetInteractionText();
+                }
+            }
         }
     }
 

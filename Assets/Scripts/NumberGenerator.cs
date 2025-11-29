@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NumberGenerator : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string interactionText = "Press E to generate number";
+    [SerializeField] private string interactionText = "Нажмите [Е] для использования";
     
     public void Interact()
     {

@@ -129,7 +129,7 @@ public class InventoryManager : MonoBehaviour
             slotBackgrounds[selectedSlot].color = selectedColor;
         }
         
-        Debug.Log($"Selected slot: {selectedSlot + 1}");
+        // Debug.Log($"Selected slot: {selectedSlot + 1}");
     }
     
     void UseSelectedItem()
