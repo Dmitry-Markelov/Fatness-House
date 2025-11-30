@@ -20,14 +20,7 @@ public class RayCast : MonoBehaviour
 
     void Update()
     {
-        if (!canInteract)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SetInteractionEnabled(true);
-            }
-            return;
-        }
+        if (!canInteract) return;
 
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
         RaycastHit hitInfo;
@@ -61,15 +54,6 @@ public class RayCast : MonoBehaviour
         if (interactionHintUI != null)
         {
             interactionHintUI.SetActive(show);
-            
-            if (show && currentInteractable != null)
-            {
-                TMPro.TextMeshProUGUI hintText = interactionHintUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (hintText != null)
-                {
-                    hintText.text = currentInteractable.GetInteractionText();
-                }
-            }
         }
     }
 
@@ -80,14 +64,6 @@ public class RayCast : MonoBehaviour
         {
             UpdateInteractionHint(false);
             currentInteractable = null;
-        }
-    }
-    private void OnDrawGizmosSelected()
-    {
-        if (InteractorSource != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(InteractorSource.position, InteractorSource.forward * InteractRange);
         }
     }
 }

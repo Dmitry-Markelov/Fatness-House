@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
             UpdateStaminaBar();
         }
     }
+    
 
     void FixedUpdate()
     {
@@ -121,4 +122,13 @@ public class PlayerMovement : MonoBehaviour
         if (StaminaBar != null)
             StaminaBar.fillAmount = Stamina / MaxStamina;
     }
+
+    public void RestoreStamina(float amount)
+    {
+        Stamina = Mathf.Min(Stamina + (MaxStamina * amount / 100f), MaxStamina);
+        UpdateStaminaBar();
+        Debug.Log($"Восстановлено {amount}% стамины. Текущая: {Stamina}");
+    }
+
+    
 }

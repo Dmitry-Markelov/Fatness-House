@@ -11,7 +11,6 @@ public class InventoryManager : MonoBehaviour
     [Header("Visual Settings")]
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
-    public float bottomOffset = 50f;
     
     [Header("Slot References")]
     public GameObject[] slotObjects;
@@ -30,7 +29,6 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         InitializeSlots();
-        PositionInventoryAtBottom();
         SelectSlot(0);
     }
     
@@ -68,21 +66,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    void PositionInventoryAtBottom()
-    {
-        RectTransform panelRect = GetComponent<RectTransform>();
-        if (panelRect != null)
-        {
-            panelRect.anchorMin = new Vector2(0.5f, 0f);
-            panelRect.anchorMax = new Vector2(0.5f, 0f);
-            panelRect.pivot = new Vector2(0.5f, 0f);
-            panelRect.anchoredPosition = new Vector2(0f, bottomOffset);
-        }
-    }
-    
     void Update()
     {
         HandleSlotSelection();
+        
         if (Input.GetMouseButtonDown(1))
         {
             UseSelectedItem();
@@ -128,8 +115,6 @@ public class InventoryManager : MonoBehaviour
         {
             slotBackgrounds[selectedSlot].color = selectedColor;
         }
-        
-        // Debug.Log($"Selected slot: {selectedSlot + 1}");
     }
     
     void UseSelectedItem()
@@ -137,7 +122,7 @@ public class InventoryManager : MonoBehaviour
         if (selectedSlot >= 0 && selectedSlot < items.Count && items[selectedSlot] != null)
         {
             InventoryItem item = items[selectedSlot];
-            Debug.Log($"Using item: {item.itemName} from slot {selectedSlot + 1}");
+            Debug.Log($"Используется предмет: {item.itemName} из слота {selectedSlot + 1}");
             
             item.Use();
             
@@ -148,7 +133,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("No item in selected slot");
+            Debug.Log("В выбранном слоте нет предмета");
         }
     }
     
@@ -158,29 +143,22 @@ public class InventoryManager : MonoBehaviour
         {
             if (items.Count <= i || items[i] == null)
             {
-                AddItemToSlot(newItem, i);
-                Debug.Log($"Added {newItem.itemName} to slot {i + 1}");
+                while (items.Count <= i)
+                    items.Add(null);
+                items[i] = newItem;
+                
+                if (slotIcons[i] != null)
+                {
+                    slotIcons[i].sprite = newItem.itemIcon;
+                    slotIcons[i].color = Color.white;
+                }
+                
+                Debug.Log($"Предмет добавлен: {newItem.itemName} в слот {i + 1}");
                 return;
             }
         }
-        Debug.Log("Inventory is full!");
-    }
-    
-    public void AddItemToSlot(InventoryItem newItem, int slotIndex)
-    {
-        if (slotIndex < 0 || slotIndex >= inventorySlots) return;
         
-        while (items.Count <= slotIndex)
-        {
-            items.Add(null);
-        }
-        
-        items[slotIndex] = newItem;
-        if (slotIcons[slotIndex] != null)
-        {
-            slotIcons[slotIndex].sprite = newItem.itemIcon;
-            slotIcons[slotIndex].color = Color.white;
-        }
+        Debug.Log("Инвентарь полон!");
     }
     
     public void RemoveItem(int slotIndex)
@@ -189,7 +167,7 @@ public class InventoryManager : MonoBehaviour
         
         items[slotIndex] = null;
         ClearSlot(slotIndex);
-        Debug.Log($"Item removed from slot {slotIndex + 1}");
+        Debug.Log($"Предмет удален из слота {slotIndex + 1}");
     }
     
     void ClearSlot(int slotIndex)
