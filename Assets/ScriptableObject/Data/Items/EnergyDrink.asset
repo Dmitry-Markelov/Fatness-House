@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced29d3a29f68f240a76d27ff8d853b0, type: 3}
   m_Name: EnergyDrink
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
-  itemName: 
-  itemIcon: {fileID: 0}
+  itemName: Energy drink
+  itemIcon: {fileID: 21300000, guid: babd69568f70a0d4b9c4965885b66728, type: 3}
   consumable: 1
-  itemPrice: 0
+  itemPrice: 100

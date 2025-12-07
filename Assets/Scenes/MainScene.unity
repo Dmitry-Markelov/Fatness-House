@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.38431373}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.89411765}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2091,6 +2091,8 @@ MonoBehaviour:
     \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F"
   vendingMachineUI: {fileID: 1796034191}
   buyButtons: []
+  itemIcons: []
+  itemNameTexts: []
   priceTexts: []
   feedbackText: {fileID: 0}
   closeButton: {fileID: 1910307535}
@@ -2101,7 +2103,7 @@ MonoBehaviour:
   inventoryUI: {fileID: 1025786649}
   balanceUI: {fileID: 36813152}
   itemsForSale:
-  - itemName: "\u041A\u0440\u0435\u0430\u0442\u0438\u043D"
+  - itemName: 
     price: 20
     itemIcon: {fileID: 21300000, guid: 1fa0aabc1b5de824f91bd5599d35b908, type: 3}
     consumable: 1
@@ -2110,27 +2112,27 @@ MonoBehaviour:
     price: 0
     itemIcon: {fileID: 0}
     consumable: 1
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 11400000, guid: 4f32790c79260674190370c64f3d457d, type: 2}
   - itemName: 
     price: 0
     itemIcon: {fileID: 0}
     consumable: 1
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 11400000, guid: b8a46e028fc17934a85a19a3d7f8deef, type: 2}
   - itemName: 
     price: 0
     itemIcon: {fileID: 0}
     consumable: 1
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 11400000, guid: ad083cf5f57bc5548994fb5e6d081df7, type: 2}
   - itemName: 
     price: 0
     itemIcon: {fileID: 0}
     consumable: 1
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 11400000, guid: 7710869c47c3b944291a9b1a0f453061, type: 2}
   - itemName: 
     price: 0
     itemIcon: {fileID: 0}
     consumable: 1
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 11400000, guid: 69ad22fa04c0adc4aa1942730e823741, type: 2}
 --- !u!65 &1100559885
 BoxCollider:
   m_ObjectHideFlags: 0

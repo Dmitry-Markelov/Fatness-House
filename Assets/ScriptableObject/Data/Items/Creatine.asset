@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Creatine
   itemIcon: {fileID: 21300000, guid: 1fa0aabc1b5de824f91bd5599d35b908, type: 3}
   consumable: 1
+  itemPrice: 50

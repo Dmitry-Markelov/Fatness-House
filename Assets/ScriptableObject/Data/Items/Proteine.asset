@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced29d3a29f68f240a76d27ff8d853b0, type: 3}
   m_Name: Proteine
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
-  itemName: 
-  itemIcon: {fileID: 0}
+  itemName: Proteine
+  itemIcon: {fileID: 21300000, guid: 9e8dc37678da99446a3b20709c038ce4, type: 3}
   consumable: 1
-  itemPrice: 0
+  itemPrice: 100
