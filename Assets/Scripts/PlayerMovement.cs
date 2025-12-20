@@ -70,9 +70,10 @@ public class PlayerMovement : MonoBehaviour
         if (!enabled) return;
 
         float currentSpeed = _isRunning && _canRun ? _runSpeed : _walkSpeed;
-        _direction *= currentSpeed;
+
+        Vector3 targetMove = new Vector3(_direction.x * currentSpeed, 0, _direction.y * currentSpeed);
         
-        Vector3 move = Quaternion.Euler(0, _playerCamera.transform.eulerAngles.y, 0) * new Vector3(_direction.x, 0, _direction.y);
+        Vector3 move = Quaternion.Euler(0, _playerCamera.transform.eulerAngles.y, 0) * targetMove;
         _velocity = new Vector3(move.x, _velocity.y, move.z);
     }
 
@@ -117,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void UpdateStaminaBar()
+    public void UpdateStaminaBar()
     {
         if (StaminaBar != null)
             StaminaBar.fillAmount = Stamina / MaxStamina;

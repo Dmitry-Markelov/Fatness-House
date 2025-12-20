@@ -17,7 +17,6 @@ public class CurrencyManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // Не уничтожать при загрузке новой сцены
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -28,8 +27,36 @@ public class CurrencyManager : MonoBehaviour
     
     void Start()
     {
+        FindCurrencyTextIfNeeded();
+        
         UpdateCurrencyUI();
         Debug.Log($"CurrencyManager запущен. Баланс: {currentCurrency}");
+    }
+    
+    void FindCurrencyTextIfNeeded()
+    {
+        if (currencyText == null)
+        {
+            TextMeshProUGUI[] allTexts = FindObjectsOfType<TextMeshProUGUI>(true);
+            foreach (TextMeshProUGUI text in allTexts)
+            {
+                if (text.name.Contains("Currency", System.StringComparison.OrdinalIgnoreCase) ||
+                    text.name.Contains("Balance", System.StringComparison.OrdinalIgnoreCase) ||
+                    text.name.Contains("Money", System.StringComparison.OrdinalIgnoreCase) ||
+                    text.name.Contains("Coins", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    currencyText = text;
+                    Debug.Log($"Автоматически найден currencyText: {text.name}");
+                    break;
+                }
+            }
+            
+            if (currencyText == null && allTexts.Length > 0)
+            {
+                currencyText = allTexts[0];
+                Debug.Log($"Автоматически назначен первый TextMeshPro: {currencyText.name}");
+            }
+        }
     }
     
     public void AddCurrency(int amount)
@@ -69,7 +96,7 @@ public class CurrencyManager : MonoBehaviour
         return enough;
     }
     
-    void UpdateCurrencyUI()
+    public void UpdateCurrencyUI()
     {
         if (currencyText != null)
         {
@@ -77,7 +104,13 @@ public class CurrencyManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Currency Text не назначен");
+            Debug.LogWarning("Currency Text не назначен. Попытка найти...");
+            FindCurrencyTextIfNeeded();
+            
+            if (currencyText != null)
+            {
+                currencyText.text = $"{currentCurrency}";
+            }
         }
     }
     

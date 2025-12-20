@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Visual Settings")]
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
-    public Color emptyIconColor = new Color(1, 1, 1, 0.3f); // НОВОЕ: цвет пустой иконки
+    public Color emptyIconColor = new Color(1, 1, 1, 0.3f);
     
     [Header("Slot References")]
     public GameObject[] slotObjects;
@@ -48,14 +48,12 @@ public class InventoryManager : MonoBehaviour
             {
                 Debug.Log($"Слот {i}: GameObject = {slotObjects[i].name}");
                 
-                // Получаем фон слота
                 slotBackgrounds[i] = slotObjects[i].GetComponent<Image>();
                 if (slotBackgrounds[i] == null)
                 {
                     Debug.LogWarning($"Слот {i}: нет Image компонента на GameObject");
                 }
                 
-                // Ищем иконку (Item) ВНУТРИ SlotBackground
                 Transform slotBackground = slotObjects[i].transform.Find("SlotBackground");
                 if (slotBackground != null)
                 {
@@ -68,18 +66,15 @@ public class InventoryManager : MonoBehaviour
                     else
                     {
                         Debug.LogWarning($"Слот {i}: не найден дочерний объект 'Item' внутри SlotBackground");
-                        // Попробуем найти иконку другим способом
                         slotIcons[i] = FindIconInChildren(slotBackground);
                     }
                 }
                 else
                 {
                     Debug.LogWarning($"Слот {i}: не найден 'SlotBackground'");
-                    // Пытаемся найти иконку прямо в slotObjects[i]
                     slotIcons[i] = slotObjects[i].GetComponentInChildren<Image>();
                 }
                 
-                // Ищем текст с номером
                 Transform textTransform = slotObjects[i].transform.Find("Text (TMP)");
                 if (textTransform != null)
                 {
@@ -88,7 +83,6 @@ public class InventoryManager : MonoBehaviour
                 }
                 else
                 {
-                    // Ищем любой TextMeshPro в потомках
                     slotNumbers[i] = slotObjects[i].GetComponentInChildren<TextMeshProUGUI>();
                     if (slotNumbers[i] != null)
                     {
@@ -96,7 +90,6 @@ public class InventoryManager : MonoBehaviour
                     }
                 }
                 
-                // Очищаем слот
                 ClearSlot(i);
             }
             else
@@ -105,7 +98,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
         
-        // Проверяем что все иконки найдены
         CheckIconsInitialized();
     }
     
@@ -149,7 +141,6 @@ public class InventoryManager : MonoBehaviour
             UseSelectedItem();
         }
         
-        // Отладка: показать инвентарь по клавише I
         if (Input.GetKeyDown(KeyCode.I))
         {
             DebugInventory();
@@ -219,7 +210,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    // ГЛАВНЫЙ МЕТОД: ДОБАВЛЕНИЕ ПРЕДМЕТА
     public void AddItem(InventoryItem newItem)
     {
         if (newItem == null)
@@ -232,23 +222,18 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"Предмет: {newItem.itemName}");
         Debug.Log($"Иконка: {(newItem.itemIcon != null ? newItem.itemIcon.name : "НЕТ")}");
 
-        // Ищем пустой сlot
         for (int i = 0; i < inventorySlots; i++)
         {
-            // Расширяем список если нужно
             while (items.Count <= i)
             {
                 items.Add(null);
                 Debug.Log($"Добавлен null элемент в items. Теперь длина: {items.Count}");
             }
             
-            // Если слот пустой
             if (items[i] == null)
             {
-                // Добавляем предмет
                 items[i] = newItem;
                 
-                // ВАЖНО: ОБНОВЛЯЕМ ИКОНКУ
                 UpdateSlotIcon(i, newItem);
                 
                 Debug.Log($"✅ Предмет добавлен в слот {i + 1}: {newItem.itemName}");
@@ -286,7 +271,6 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            // Если у предмета нет иконки, показываем цветной квадрат
             iconImage.sprite = null;
             iconImage.color = GetColorByItemName(item.itemName);
             iconImage.gameObject.SetActive(true);
@@ -296,7 +280,6 @@ public class InventoryManager : MonoBehaviour
     
     Color GetColorByItemName(string name)
     {
-        // Генерируем уникальный цвет на основе имени
         int hash = name.GetHashCode();
         return new Color(
             (hash & 0xFF) / 255f,
@@ -363,12 +346,10 @@ public class InventoryManager : MonoBehaviour
     [ContextMenu("Тест: добавить тестовый предмет")]
     public void TestAddItem()
     {
-        // Создаем тестовый предмет
         InventoryItem testItem = ScriptableObject.CreateInstance<InventoryItem>();
         testItem.itemName = "ТЕСТОВЫЙ ПРЕДМЕТ";
         testItem.consumable = true;
         
-        // Добавляем
         AddItem(testItem);
     }
 }

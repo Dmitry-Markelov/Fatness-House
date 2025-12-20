@@ -45,7 +45,7 @@ public class InventoryItem : ScriptableObject
 
     private void RestoreStamina(float amount)
     {
-        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        PlayerMovement player = FindFirstObjectByType<PlayerMovement>();
         if (player != null)
         {
             player.RestoreStamina(amount);

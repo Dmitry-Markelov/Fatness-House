@@ -36,19 +36,17 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private ParticleSystem buyParticles;
     
     private bool isUIOpen = false;
-    private InventoryManager playerInventory; // ИЗМЕНИЛОСЬ: теперь InventoryManager
+    private InventoryManager playerInventory; 
 
     void Start()
     {
         Debug.Log("=== VENDING MACHINE START ===");
         
-        // Создаем CurrencyManager если его нет
         if (CurrencyManager.Instance == null)
         {
             CreateCurrencyManager();
         }
         
-        // Находим InventoryManager на игроке
         FindPlayerInventory();
         
         if (vendingMachineUI != null)
@@ -64,8 +62,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         Debug.Log("Поиск InventoryManager...");
         
-        // Ищем InventoryManager в сцене
-        InventoryManager inventory = FindObjectOfType<InventoryManager>();
+        InventoryManager inventory = FindFirstObjectByType<InventoryManager>();
         
         if (inventory != null)
         {
@@ -73,12 +70,10 @@ public class VendingMachine : MonoBehaviour, IInteractable
             Debug.Log($"✅ InventoryManager найден: {inventory.gameObject.name}");
             Debug.Log($"Слотов инвентаря: {inventory.inventorySlots}");
             
-            // Проверяем инициализацию слотов
             playerInventory.CheckSlots();
             return;
         }
         
-        // Если не нашли, ищем на игроке
         Debug.Log("InventoryManager не найден в сцене, ищу на игроке...");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
@@ -130,7 +125,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         Debug.Log("Инициализация UI вендинга...");
 
-        // Инициализируем кнопки покупки
         for (int i = 0; i < buyButtons.Length; i++)
         {
             int index = i;
@@ -147,7 +141,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
             }
         }
 
-        // Кнопка закрытия
         if (closeButton != null)
         {
             closeButton.onClick.RemoveAllListeners();
@@ -159,7 +152,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
             Debug.LogError("❌ Кнопка закрытия не назначена!");
         }
 
-        // Обновляем отображение
         UpdateItemsDisplay();
     }
     
@@ -197,19 +189,16 @@ public class VendingMachine : MonoBehaviour, IInteractable
         {
             InventoryItem item = manualItems[i];
             
-            // Имя предмета
             if (itemNameTexts != null && i < itemNameTexts.Length && itemNameTexts[i] != null)
             {
                 itemNameTexts[i].text = item != null ? item.itemName : "EMPTY";
             }
             
-            // Цена
             if (priceTexts != null && i < priceTexts.Length && priceTexts[i] != null)
             {
                 priceTexts[i].text = item != null ? item.itemPrice.ToString() + " ГАНТ." : "---";
             }
             
-            // Иконка
             if (itemIcons != null && i < itemIcons.Length && itemIcons[i] != null)
             {
                 if (item != null && item.itemIcon != null)
@@ -258,7 +247,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         Debug.Log("=== ОТКРЫТИЕ ВЕНДИНГА ===");
         
-        // Проверяем инвентарь перед открытием
         if (playerInventory == null)
         {
             Debug.LogError("❌ InventoryManager не найден! Не могу открыть вендинг.");
@@ -266,28 +254,22 @@ public class VendingMachine : MonoBehaviour, IInteractable
             return;
         }
         
-        // Блокируем взаимодействие
         if (rayCast != null) 
             rayCast.SetInteractionEnabled(false);
         
         isUIOpen = true;
         
-        // Показываем UI вендинга
         if (vendingMachineUI != null) 
             vendingMachineUI.SetActive(true);
         
-        // Скрываем другие UI
         SetOtherUIVisibility(false);
         
-        // Блокируем движение игрока
         if (playerMovement != null) 
             playerMovement.enabled = false;
         
-        // Разблокируем курсор
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
-        // Обновляем UI
         UpdateUI();
     }
     
@@ -299,22 +281,17 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         isUIOpen = false;
         
-        // Скрываем UI вендинга
         if (vendingMachineUI != null) 
             vendingMachineUI.SetActive(false);
         
-        // Показываем другие UI
         SetOtherUIVisibility(true);
         
-        // Восстанавливаем движение игрока
         if (playerMovement != null) 
             playerMovement.enabled = true;
         
-        // Восстанавливаем курсор
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
-        // Восстанавливаем RayCast
         StartCoroutine(EnableRayCastNextFrame());
     }
     
@@ -348,7 +325,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         if (CurrencyManager.Instance != null && balanceText != null)
         {
-            balanceText.text = $"ГАНТЕЛЕЙ: {CurrencyManager.Instance.currentCurrency}";
             Debug.Log($"Баланс в UI: {CurrencyManager.Instance.currentCurrency}");
         }
         else
@@ -400,7 +376,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
         Debug.Log($"=== ПОПЫТКА ПОКУПКИ ===");
         Debug.Log($"Слот: {itemIndex + 1}");
         
-        // Проверка индекса
         if (itemIndex < 0 || itemIndex >= manualItems.Length || manualItems[itemIndex] == null)
         {
             ShowFeedback("Товар недоступен", Color.red);
@@ -410,14 +385,12 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         InventoryItem item = manualItems[itemIndex];
         
-        // Проверка цены
         if (item.itemPrice <= 0)
         {
             ShowFeedback("Этот товар нельзя купить", Color.yellow);
             return;
         }
         
-        // Проверка CurrencyManager
         if (CurrencyManager.Instance == null)
         {
             ShowFeedback("Ошибка системы валюты", Color.red);
@@ -425,7 +398,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
             return;
         }
         
-        // Проверка инвентаря
         if (playerInventory == null)
         {
             ShowFeedback("Ошибка инвентаря", Color.red);
@@ -433,20 +405,16 @@ public class VendingMachine : MonoBehaviour, IInteractable
             return;
         }
         
-        // Проверяем баланс
         Debug.Log($"Баланс: {CurrencyManager.Instance.currentCurrency}, Цена: {item.itemPrice}");
         
         if (CurrencyManager.Instance.SpendCurrency(item.itemPrice))
         {
             Debug.Log($"✅ Деньги списаны. Новый баланс: {CurrencyManager.Instance.currentCurrency}");
             
-            // Эффекты покупки
             PlayBuyEffects();
             
-            // Добавляем в инвентарь
             AddItemToInventory(item);
             
-            // Обновляем UI
             UpdateUI();
         }
         else
@@ -458,13 +426,11 @@ public class VendingMachine : MonoBehaviour, IInteractable
     
     void PlayBuyEffects()
     {
-        // Звук
         if (buySound != null)
         {
             AudioSource.PlayClipAtPoint(buySound, Camera.main.transform.position, 0.5f);
         }
         
-        // Частицы
         if (buyParticles != null && vendingMachineUI != null)
         {
             ParticleSystem particles = Instantiate(buyParticles, vendingMachineUI.transform);
@@ -472,7 +438,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
         }
     }
     
-    // ГЛАВНЫЙ МЕТОД: ДОБАВЛЕНИЕ ПРЕДМЕТА В ИНВЕНТАРЬ
     void AddItemToInventory(InventoryItem item)
     {
         if (item == null)
@@ -493,18 +458,14 @@ public class VendingMachine : MonoBehaviour, IInteractable
         Debug.Log($"Предмет: {item.itemName}");
         Debug.Log($"Иконка: {(item.itemIcon != null ? item.itemIcon.name : "НЕТ")}");
         
-        // Показываем текущее состояние инвентаря
         playerInventory.DebugInventory();
         
-        // Вызываем метод AddItem из InventoryManager
         playerInventory.AddItem(item);
         
         ShowFeedback($"✅ Куплено: {item.itemName}", Color.green);
         
-        // Показываем обновленный инвентарь
         playerInventory.DebugInventory();
         
-        // Показываем инвентарь на 3 секунды
         StartCoroutine(ShowInventoryBriefly());
     }
     
@@ -519,7 +480,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
             
             yield return new WaitForSeconds(3f);
             
-            // Если вендинг все еще открыт, скрываем инвентарь
             if (isUIOpen && inventoryUI != null)
             {
                 inventoryUI.SetActive(false);
@@ -554,19 +514,16 @@ public class VendingMachine : MonoBehaviour, IInteractable
     
     void Update()
     {
-        // Закрытие по Escape
         if (isUIOpen && Input.GetKeyDown(KeyCode.Escape))
         {
             CloseVendingMachine();
         }
         
-        // Аварийное восстановление
         if (isUIOpen && Input.GetKeyDown(KeyCode.F12))
         {
             EmergencyClose();
         }
         
-        // Тест: добавить тестовый предмет в инвентарь
         if (Input.GetKeyDown(KeyCode.T) && playerInventory != null)
         {
             Debug.Log("Тест: добавляю тестовый предмет...");
@@ -580,11 +537,9 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         isUIOpen = false;
         
-        // Принудительно закрываем все
         if (vendingMachineUI != null) 
             vendingMachineUI.SetActive(false);
         
-        // Восстанавливаем все UI
         SetOtherUIVisibility(true);
         
         if (playerMovement != null) 
@@ -593,8 +548,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
-        // Ищем и восстанавливаем RayCast
-        RayCast rc = FindObjectOfType<RayCast>();
+        RayCast rc = FindFirstObjectByType<RayCast>();
         if (rc != null) 
         {
             rc.SetInteractionEnabled(true);
