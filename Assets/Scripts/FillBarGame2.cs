@@ -141,8 +141,7 @@ public class QTEGame2 : MonoBehaviour, IInteractable
         
         if (requireFullStamina)
         {
-            bool hasFullStamina = HasFullStamina();
-            if (!hasFullStamina)
+            if (playerMovement.Stamina < staminaDrainAmount)
             {
                 Debug.Log($"Требуется полная стамина. Текущая: {playerMovement.Stamina}/{playerMovement.MaxStamina}");
                 return false;

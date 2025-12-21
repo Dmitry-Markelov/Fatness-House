@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0412\u0420\u0415\u041C\u042F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -867,17 +867,17 @@ MonoBehaviour:
   staminaDrainAmount: 100
   giveRewardOnWin: 1
   currencyReward: 100
+  mainColor: {r: 0.631, g: 0.851, b: 0.627, a: 1}
+  darkColor: {r: 0.431, g: 0.651, b: 0.427, a: 1}
+  lightColor: {r: 0.831, g: 0.951, b: 0.827, a: 1}
+  backgroundColor: {r: 0.631, g: 0.851, b: 0.627, a: 0.3}
   staminaBarUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   balanceUI: {fileID: 0}
   cursorUI: {fileID: 0}
-  fillColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
-  emptyColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
   progressBarFill: {fileID: 0}
   progressBarBackground: {fileID: 0}
   timerText: {fileID: 0}
-  instructionText: {fileID: 0}
-  pressCounterText: {fileID: 0}
   quitButton: {fileID: 0}
   panel: {fileID: 0}
   wKeyHighlight: {fileID: 0}
